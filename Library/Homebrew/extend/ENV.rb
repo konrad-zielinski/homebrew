@@ -81,11 +81,8 @@ module HomebrewEnvExtension
   # recommended by Apple, but, eg. wget won't compile with this flag, so…
   def fast
     remove_from_cflags /-O./
-    unless MACOS_VERSION >= 10.6 and (ENV['HOMEBREW_USE_LLVM'] or ARGV.include? '--use-llvm')
-      append_to_cflags '-fast'
-    else
-      append_to_cflags '-fast -flto' # link time optimization
-    end
+    append_to_cflags '-fast'
+    append_to_cflags '-flto' if ENV['HOMEBREW_USE_LLVM'] or ARGV.include? '--use-llvm'
   end
   def O4
     # LLVM link-time optimization
